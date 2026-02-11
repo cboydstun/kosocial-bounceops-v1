@@ -29,12 +29,6 @@ check_user() {
     fi
 }
 
-# Function to setup directories
-setup_directories() {
-    echo -e "${YELLOW}📂 Setting up directories...${NC}"
-    sudo mkdir -p $LOG_DIR
-}
-
 # Function to clone or pull repo
 setup_repo() {
     echo -e "${YELLOW}📥 Setting up repository...${NC}"
@@ -49,6 +43,10 @@ setup_repo() {
         cd $APP_DIR
         sudo chown -R apiuser:apiuser $APP_DIR
     fi
+
+    # Create logs directory after repo is cloned
+    echo -e "${YELLOW}📂 Setting up log directory...${NC}"
+    mkdir -p $LOG_DIR
 }
 
 # Function to install dependencies and build
@@ -184,7 +182,6 @@ verify_deployment() {
 # Main deployment process
 main() {
     check_user
-    setup_directories
     setup_repo
     build_app
     setup_nginx
