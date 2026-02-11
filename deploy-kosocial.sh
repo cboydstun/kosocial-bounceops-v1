@@ -164,11 +164,13 @@ verify_deployment() {
         exit 1
     fi
 
-    # Check if port 8081 is listening
-    if sudo netstat -tlnp | grep -q ":8081.*LISTEN"; then
+    # Check if port 8081 is listening (using ss, modern replacement for netstat)
+    if sudo ss -tlnp | grep -q ":8081.*LISTEN"; then
         echo -e "${GREEN}✅ Application listening on port 8081${NC}"
     else
         echo -e "${RED}❌ Application not listening on port 8081${NC}"
+        echo "Checking PM2 logs..."
+        pm2 logs kosocial-site --lines 20 --nostream
         exit 1
     fi
 
