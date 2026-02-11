@@ -32,9 +32,7 @@ check_user() {
 # Function to setup directories
 setup_directories() {
     echo -e "${YELLOW}📂 Setting up directories...${NC}"
-    sudo mkdir -p $APP_DIR
     sudo mkdir -p $LOG_DIR
-    sudo chown -R apiuser:apiuser $APP_DIR
 }
 
 # Function to clone or pull repo
@@ -49,6 +47,7 @@ setup_repo() {
         echo "Cloning repository..."
         git clone $REPO_URL $APP_DIR
         cd $APP_DIR
+        sudo chown -R apiuser:apiuser $APP_DIR
     fi
 }
 
