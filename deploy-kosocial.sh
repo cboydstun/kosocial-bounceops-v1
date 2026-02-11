@@ -39,12 +39,14 @@ setup_repo() {
         git reset --hard origin/main
     else
         echo "Cloning repository..."
+        # Create parent directory with proper permissions
+        sudo mkdir -p $APP_DIR
+        sudo chown apiuser:apiuser $APP_DIR
         git clone $REPO_URL $APP_DIR
         cd $APP_DIR
-        sudo chown -R apiuser:apiuser $APP_DIR
     fi
 
-    # Create logs directory after repo is cloned
+    # Create logs directory
     echo -e "${YELLOW}📂 Setting up log directory...${NC}"
     mkdir -p $LOG_DIR
 }
