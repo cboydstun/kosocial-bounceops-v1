@@ -1,36 +1,147 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# KoSocial BounceOps White-Label Site
 
-## Getting Started
+A minimal Next.js marketing site that embeds a signup form for the BounceOps platform with automatic source tracking.
 
-First, run the development server:
+## Architecture
+
+- **Framework**: Next.js 16 with TypeScript
+- **Styling**: Minimal CSS with CSS variables for easy customization
+- **Testing**: Jest + React Testing Library
+- **Deployment**: PM2 on VPS (port 8081)
+
+## Features
+
+✅ Embedded signup form (user stays on partner domain)
+✅ Direct API integration with BounceOps platform
+✅ Automatic source tracking (`signupSource: 'kosocial'`)
+✅ White-label ready with CSS variables
+✅ Mobile responsive
+✅ Test coverage for core functionality
+
+## Quick Start
+
+### Development
 
 ```bash
+# Install dependencies
+npm install
+
+# Run development server
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+
+# Run tests
+npm test
+
+# Build for production
+npm run build
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Production Deployment
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+# Deploy to VPS
+./deploy-kosocial.sh
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Customization Guide
 
-## Learn More
+### 1. Branding & Colors
 
-To learn more about Next.js, take a look at the following resources:
+Edit `app/globals.css` to change the color scheme:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```css
+:root {
+  --primary-color: #2563eb;      /* Main brand color */
+  --primary-hover: #1d4ed8;      /* Hover state */
+  --text-color: #1f2937;         /* Body text */
+  --bg-color: #ffffff;           /* Background */
+  --border-color: #e5e7eb;       /* Borders */
+  --error-color: #dc2626;        /* Error messages */
+}
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### 2. Logo
 
-## Deploy on Vercel
+Add your logo to `/public/logo.png` and reference it in your pages.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### 3. Copy & Content
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Edit the following files:
+- `app/page.tsx` - Homepage content
+- `app/signup/page.tsx` - Signup page content
+- `app/layout.tsx` - Site title and description
+
+### 4. Domain Configuration
+
+Update `.env.production`:
+
+```env
+NEXT_PUBLIC_PLATFORM_URL=https://slowbill.xyz
+NODE_ENV=production
+PORT=8081
+```
+
+## File Structure
+
+```
+kosocial-bounceops-v1/
+├── app/
+│   ├── layout.tsx              # Root layout
+│   ├── page.tsx                # Homepage
+│   ├── signup/
+│   │   └── page.tsx            # Signup page
+│   └── globals.css             # Styles
+├── components/
+│   └── SignupForm.tsx          # Signup form component
+├── lib/
+│   └── config.ts               # Platform configuration
+├── __tests__/
+│   ├── unit/
+│   │   └── config.test.ts      # Config tests
+│   └── integration/
+│       └── signup-form.test.tsx # Form tests
+├── public/
+│   └── .gitkeep                # Add your logo here
+├── ecosystem.config.cjs         # PM2 configuration
+├── deploy-kosocial.sh           # Deployment script
+├── .env.example                 # Environment template
+├── .env.production              # Production env
+└── README.md                    # This file
+```
+
+## Testing
+
+```bash
+# Run all tests
+npm test
+
+# Watch mode
+npm run test:watch
+
+# Coverage
+npm run test:coverage
+```
+
+## Platform Integration
+
+### Signup Flow
+
+1. User fills form on partner domain
+2. Form POSTs to BounceOps API with `signupSource: 'kosocial'`
+3. On success, redirect to `{tenant}.slowbill.xyz/onboarding`
+4. User completes onboarding on platform
+
+### CORS Requirements
+
+The BounceOps platform must allow CORS from partner domains.
+
+## Support
+
+For issues:
+1. Check logs: `pm2 logs kosocial-site`
+2. Verify build: `npm run build`
+3. Test locally: `npm run dev`
+
+## License
+
+Proprietary - KO Social Media
