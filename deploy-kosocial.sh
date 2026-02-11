@@ -70,7 +70,7 @@ setup_nginx() {
         echo "Creating Nginx configuration..."
         sudo tee $NGINX_AVAILABLE > /dev/null << 'NGINXEOF'
 upstream kosocial_backend {
-    server 127.0.0.1:8082;
+    server 127.0.0.1:8083;
     keepalive 64;
 }
 
@@ -164,18 +164,18 @@ verify_deployment() {
         exit 1
     fi
 
-    # Check if port 8082 is listening (using ss, modern replacement for netstat)
-    if sudo ss -tlnp | grep -q ":8082.*LISTEN"; then
-        echo -e "${GREEN}✅ Application listening on port 8082${NC}"
+    # Check if port 8083 is listening (using ss, modern replacement for netstat)
+    if sudo ss -tlnp | grep -q ":8083.*LISTEN"; then
+        echo -e "${GREEN}✅ Application listening on port 8083${NC}"
     else
-        echo -e "${RED}❌ Application not listening on port 8082${NC}"
+        echo -e "${RED}❌ Application not listening on port 8083${NC}"
         echo "Checking PM2 logs..."
         pm2 logs kosocial-site --lines 20 --nostream
         exit 1
     fi
 
     # Test local connection
-    if curl -s http://localhost:8082 > /dev/null; then
+    if curl -s http://localhost:8083 > /dev/null; then
         echo -e "${GREEN}✅ Application responding to requests${NC}"
     else
         echo -e "${RED}❌ Application not responding${NC}"
@@ -199,7 +199,7 @@ main() {
     echo ""
     echo -e "${GREEN}📊 Application Details:${NC}"
     echo "   URL: https://kosocial.slowbill.xyz"
-    echo "   Port: 8082"
+    echo "   Port: 8083"
     echo "   Directory: $APP_DIR"
     echo "   Logs: $LOG_DIR"
     echo ""

@@ -7,7 +7,7 @@ A minimal Next.js marketing site that embeds a signup form for the BounceOps pla
 - **Framework**: Next.js 16 with TypeScript
 - **Styling**: Minimal CSS with CSS variables for easy customization
 - **Testing**: Jest + React Testing Library
-- **Deployment**: PM2 on VPS (port 8082)
+- **Deployment**: PM2 on VPS (port 8083)
 
 ## Features
 
@@ -78,7 +78,7 @@ Update `.env.production`:
 ```env
 NEXT_PUBLIC_PLATFORM_URL=https://slowbill.xyz
 NODE_ENV=production
-PORT=8082
+PORT=8083
 ```
 
 ## File Structure
